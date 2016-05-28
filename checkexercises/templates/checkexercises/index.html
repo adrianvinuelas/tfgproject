@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Agency - Start Bootstrap Theme</title>
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+    {% load staticfiles %}
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'checkexercises/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'checkexercises/css/agency.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'checkexercises/fonts/font-awesome/css/font-awesome.min.css' %}" >
+    <link rel="stylesheet" type="text/css" href="{% static 'checkexercises/css/proyecto.css' %}" />
+
+
+
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top" class="index">
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top ">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll text5" href="#page-top">Check Github Repositories
+                    {% if autenticado %}
+                    ({{userlogin}})
+                    {% endif %}
+                    {% if listexercisesteach %}
+                        {% if is_teacher == True %}  
+                            {% for i in listexercisesteach %}
+                                {% if i.urlTeacherEx == urlteach %}
+                                    {% if i.branch == rama %}
+                                      {% if i.numorden == numord %}
+                                       <p class ="text3">{{i.urlTeacherEx}} <b>({{i.branch}})</b> ({{i.numorden}})</p>
+                                      {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for i in listexercisesteach %}
+                                {% if i.urlStudentEx == urlstudent %}
+                                    {% if i.branch == rama %}
+                                      {% if i.numorden == numord %}
+                                        <p class ="text3">{{i.urlStudentEx}} <b>({{i.branch}})</b> ({{i.numorden}})</p>
+                                       {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
+                </a>            
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <!-- No cambia a class="active" porque despues de analizar el repo -->
+                    <li>            <!-- es como que no funciona lo de agency(lo mismo con navbar-shrink) -->
+                        <a class="page-scroll ocult" href="#sumary">Sumary</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll ocult ocult3" href="#portfolio">Repository</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll ocult2" href="#sumary">Information</a>
+                    </li>
+                    <li>            
+                        <button type="button" class="page-scroll btn btn-lg prohib ocult1" onclick="logout()">Logout</button>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+             {% if autenticado == True %}
+                <div id="isautenticado">SI</div>
+             {% else %}
+                <div id="isautenticado">NO</div>
+             {% endif %}
+           
+            <div class="intro-text">
+                <div class="intro-lead-in">Welcome To CGR!</div>
+                <div class="intro-heading">Check Exercises!</div>
+                {% if logearse %}
+                    <div id="autenticarse">
+                        <div id="form2">
+                          <input type="text" class="form-control form1" placeholder="Enter your login name" name="dirgithub" value="" id="namelogin" size="60"/>
+                          <br>
+                          <input type="password" class="form-control form1" placeholder="Enter your password" name="dirgithub" value="" id="password2" size="60"/>
+                          <br>
+                          <div id="errorlog"></div>
+                          {% if errorlogin %}
+                            <div id="errorlog2" class='alert alert-warning alert-dismissible text1 mes1' role='alert'>
+                                <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                <span aria-hidden='true'>&times;</span>
+                            </button><strong>Warning!</strong> {{errorlogin}}
+                            </div>
+                            <br>
+                          {% endif %} 
+                          {% if errordel %}
+                            <div id="errordel1" class='alert alert-success alert-dismissible text1 mes1' role='alert'>
+                                  <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                  <span aria-hidden='true'>&times;</span>
+                              </button><strong>Succes!</strong> {{errordel}}
+                            </div>
+                            <br>
+                          {% endif%}   
+                            <div class="col-md-1"></div><div class="col-md-1"></div><div class="col-md-1"></div>     
+                            <button type="button" id="botonlogin" class="page-scroll btn btn-xl prohib col-md-2 col-xs-12">Login</button>
+                            <button type="button" id="botonnewuser" class="page-scroll btn btn-xl prohib col-md-2 col-xs-12">New User</button>
+                            <div class="col-md-5"></div>
+                            <div><button type="button" id="botondeluser" class="page-scroll btn btn-danger prohib col-md-2">Delete User</button></div>
+                           
+                        </div> 
+                    </div>
+                    <div id="crearusuario">
+                        <div id="form3">
+                          <input type="text" class="form-control form1" placeholder="Enter your login name" name="dirgithub" value="" id="nameuser" size="60"/>
+                          <br>
+                          <input type="text" class="form-control form1" placeholder="Enter your e-mail" name="dirgithub" value="" id="email" size="60"/>
+                          <br>
+                          <input type="password" class="form-control form1" placeholder="Enter your password (6 characters min)" name="dirgithub" value="" id="password1" size="60"/>
+                          <br>
+                          <div class="panel-body text-center">
+                              <b style="font-size: medium">Select option :</b>
+                              <label class="radio-inline">
+                                <input type="radio" name="optionsRol" id="optionsTeacher" value="teacher" checked=""> teacher
+                              </label>
+                              <label class="radio-inline">
+                                <input type="radio" name="optionsRol" id="optionsStudent" value="student"> student
+                              </label>
+                          </div> 
+                          <div id="errorcreate"></div> 
+                            <div class="col-md-1"></div><div class="col-md-1"></div><div class="col-md-1"></div><div class="col-md-1"></div>
+                            <button type="button" id="botoncreate" class="page-scroll btn btn-xl prohib col-md-2 col-xs-12">Create User</button>
+                            <button type="button" id="botonreturn" class="page-scroll btn btn-xl prohib col-md-2 col-xs-12">Return</button>
+                        </div> 
+                    </div>
+                    <div id="delusuario">
+                      <div id = "progreso1">
+                          <div class="progress">
+                            <div id="barraprogreso1" class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                              <span class="sr-only">45% Complete</span>DELETING USER, WAIT A MOMENT PLEASE.
+                            </div>
+                          </div>
+                      </div>
+                      <div id="form4">
+                        <input type="text" class="form-control form1" placeholder="Enter your login name" name="dirgithub" value="" id="nameuser2" size="60"/>
+                        <br>
+                        <input type="password" class="form-control form1" placeholder="Enter your password (6 characters min)" name="dirgithub" value="" id="password3" size="60"/>
+                        <br>
+                        <div id="errordel"></div>
+                        <div id="delask" class='alert alert-danger alert-dismissible text1 mes1' role='alert'>
+                        </div>
+                        <div class="col-md-1"></div><div class="col-md-1"></div><div class="col-md-1"></div>
+                          <button type="button" id="deluserdefinit" class="page-scroll btn btn-xl prohib col-md-2 col-xs-12">Delete</button>
+                          <button type="button" id="botonreturn1" class="page-scroll btn btn-xl prohib col-md-2 col-xs-12">Return</button>
+                      </div>
+                    </div>
+                {% endif %}
+                {% if autenticado %}
+                <div id = "progreso">
+                    <div class="progress">
+                      <div id="barraprogreso" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                        <span class="sr-only">45% Complete</span>ANALYZING REPOSITORY. WAIT A FEW MINUTES PLEASE.
+                      </div>
+                    </div>
+                </div>
+                <div id="form">
+                     {% if is_teacher == True %} 
+                      <input type="text" class="form-control form1" placeholder="Enter a repository's name * (https://github.com/CursosWeb/exercise)" name="dirgithub" value="" id="urlgit" size="60"/>
+                      {% else %}
+                      <input type="text" class="form-control form1" placeholder="Enter a repository's name * (https://github.com/yourNameInGithub/exercise)" name="dirgithub" value="" id="urlgit" size="60"/>
+                      {% endif %}
+                      <div class="panel-body text-center">
+                          <b style="font-size: medium">Select Branch :</b>
+                          <label class="radio-inline">
+                            <input type="radio" name="optionsRadios" id="optionsMaster" value="master" checked=""> master
+                          </label>
+                          <label class="radio-inline">
+                            <input type="radio" name="optionsRadios" id="optionsGh-pages" value="gh-pages"> gh-pages
+                          </label>
+                      </div>
+                    <div id="errorurl"></div>
+                    {% if is_teacher == True %}      
+                    <button type="button" id="botonurlgit" class="page-scroll btn btn-xl prohib">Enter github</button>
+                    {% endif %}
+                    {% if is_student == True %}
+                    <button type="button" id="botonurlgit1" class="page-scroll btn btn-xl prohib">Enter github</button> 
+                    {% endif %}
+                </div>                        
+                {% if failanalize %}
+                 <br>
+                 <div id="failanalisis">{{failanalize}}</div>
+                {% endif %}
+                
+                <div class="panel panel-success" id="panelLibrary">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">discarded files</h3>
+                  </div>
+                    <div class="panel-body">
+                        <div class="list-group text1" style="color: black;">
+                            <li>jQuery.js, bootstrap.js, npm.js, leaflet.js, jquery-ui.js, -src.js, and .min.js (Default)</li>
+                            {% if listLibraries %}
+                                {% for i in listLibraries%}
+                                    <li>{{i.name}}</li>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div id="form">
+                            <input type="text" class="form-control" placeholder="Example.js" name="fichname" value="" id="notAnalizefich" size="40"/>
+                             <button type="button" id="botonfichNot" class="page-scroll btn btn-xs prohib">Enter file</button>
+                             <button type="button" id="botonDelfichNot" class="page-scroll btn btn-xs prohib">Delete file</button>
+                            {% if MessageFile1 %}
+                            <div class='alert alert-success alert-dismissible text1 mes1' role='alert'>
+                                <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                <span aria-hidden='true'>&times;</span>
+                            </button><strong>Success!</strong> {{MessageFile1}}
+                            </div>
+                            <br>
+                            {% endif %}
+                            {% if MessageFile2 %}
+                            <div class='alert alert-warning alert-dismissible text1 mes1' role='alert'>
+                                <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                <span aria-hidden='true'>&times;</span>
+                            </button><strong>Warning!</strong> {{MessageFile2}}
+                            </div>
+                            <br>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-primary" id="panelexer">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Analyzed Repositories</h3>
+                  </div>
+                  <div class="panel-body">
+                    {% if listexercisesteach %}
+                    <div class="list-group">
+                      {% for i in listexercisesteach %}
+                        {% if is_teacher == True %}
+                            {% if i.urlTeacherEx == urlteach %}
+                                {% if i.branch == rama %}
+                                   {% if i.numorden == numord %}
+                                      <button type="button" class="list-group-item active prohib text1" onclick="obtenerforks('{{i.urlTeacherEx}}','{{i.branch}}','{{i.numorden}}')">{{i.urlTeacherEx}} <b>({{i.branch}})</b> ({{i.numorden}})</button>
+                                    {% else %}
+                                      <button type="button" class="list-group-item prohib text1" onclick="obtenerforks('{{i.urlTeacherEx}}','{{i.branch}}','{{i.numorden}}')">{{i.urlTeacherEx}} <b>({{i.branch}})</b> ({{i.numorden}})</button>
+                                    {% endif %}
+                                 {% else %}
+                                   <button type="button" class="list-group-item prohib text1" onclick="obtenerforks('{{i.urlTeacherEx}}','{{i.branch}}','{{i.numorden}}')">{{i.urlTeacherEx}} <b>({{i.branch}})</b> ({{i.numorden}})</button>
+                                {% endif %}
+                            {% else %}
+                              <button type="button" class="list-group-item prohib text1" onclick="obtenerforks('{{i.urlTeacherEx}}','{{i.branch}}','{{i.numorden}}')">{{i.urlTeacherEx}} <b>({{i.branch}})</b> ({{i.numorden}})</button>
+                            {% endif %}
+                        {% else %}
+                            {% if i.urlStudentEx == urlstudent %}
+                                {% if i.branch == rama %}
+                                 {% if i.numorden == numord %}
+                                      <button type="button" class="list-group-item active prohib text1" onclick="analizarepo('{{i.urlStudentEx}}','{{i.branch}}','{{i.numorden}}')">{{i.urlStudentEx}} <b>({{i.branch}})</b> ({{i.numorden}})</button>
+                                   {% else %}
+                                      <button type="button" class="list-group-item prohib text1" onclick="analizarepo('{{i.urlStudentEx}}','{{i.branch}}','{{i.numorden}}')">{{i.urlStudentEx}} <b>({{i.branch}})</b> ({{i.numorden}})</button>
+                                   {% endif %}
+                                 {% else %}
+                                   <button type="button" class="list-group-item prohib text1" onclick="analizarepo('{{i.urlStudentEx}}','{{i.branch}}','{{i.numorden}}')">{{i.urlStudentEx}} <b>({{i.branch}})</b> ({{i.numorden}})</button>
+                                {% endif %}
+                            {% else %}
+                              <button type="button" class="list-group-item prohib text1" onclick="analizarepo('{{i.urlStudentEx}}','{{i.branch}}','{{i.numorden}}')">{{i.urlStudentEx}} <b>({{i.branch}})</b> ({{i.numorden}})</button>
+                            {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                    {% else %}
+                        <button type="button" class="list-group-item prohib">No repository analyzed</button>
+                    {% endif %}
+                  </div>
+                </div>
+                  {% if repos %}
+                    <br>
+                    <button type="button" class="page-scroll btn btn-xl prohib" onclick="mainMenu()">MAIN MENU</button>
+                  {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+  <!-- Sumary GLOBAL Section -->
+    {% if global %}
+      <div id="hayglobal">SI</div>
+    {% else %}
+      <div id="hayglobal">NO</div>
+    {% endif %}
+    
+    {% if global %}
+    <section id="sumary">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">GLOBAL INFORMATION</h2>
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-info fa-stack-1x fa-inverse"></i>
+                    </span>
+                    {% if is_teacher == True %}
+                      <h4 class="service-heading">TOP 5 COMMON STUDENTS' ERRORS OF {{userlogin}}</h4>
+                    {% else %}
+                      <h4 class="service-heading">TOP 5 COMMON ERRORS OF {{userlogin}}</h4>
+                    {% endif %}             
+                </div>
+            </div>
+            <div id="rankingerrorglobal" class="text-left">
+                <pre class="text2" style="background-color: white">{{rankerrorsglobal|safe}}</pre>
+            </div> 
+
+            <div id="infoerrorGlobal">{{infoerroresGlobal}}</div>
+            <div id="infoerrorGlobalname">{{userlogin}}</div>
+            {% if is_teacher == True %}
+              <div id="hayteacher">SI</div>
+            {% else %}
+              <div id="hayteacher">NO</div>
+            {% endif %}
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                  <span class="fa-stack fa-4x">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      <i class="fa fa-line-chart fa-stack-1x fa-inverse"></i>
+                  </span>
+                  <h4 class="service-heading">ERRORS' EVOLUTION</h4>        
+                </div>
+            </div>
+            <div id="graferrorGlobal"></div>
+        </div>
+    </section>
+    {% endif %}
+    <!-- Sumary GLOBAL Section -->
+    
+    <!-- Sumary Section -->
+    {% if repos %}
+      <section id="sumary">
+        {% if nomostrar == False %}
+          <div id="showbotonocult3">{{nomostrar}}</div>
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-12 text-center">
+                      <h2 class="section-heading">Sumary</h2>
+                      <!--<span class="fa-stack fa-4x">
+                          <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                          <i class="fa fa-info fa-stack-1x fa-inverse"></i>
+                      </span>
+                      {% if is_teacher == True %}
+                       <h4 class="service-heading">Sumary of repositories of exercise {{urlteach}} ({{rama}})</h4>
+                       <div class="row text-center">
+                          <pre>{{sumaryteach|safe}}</pre>
+                      </div>
+                      {% else %}
+                       <h4 class="service-heading">Sumary of repository of exercise {{urlstudent}} ({{rama}})</h4>
+                      {% endif %}-->
+                          
+                  </div>
+              </div>
+              <div id="infoerror">
+                  {{infoerrores}}
+              </div>
+              {% if is_teacher == True %}
+                <div id="infonamerepo">{{urlteach}} ({{rama}})</div>
+              {% else %}
+                <div id="infonamerepo">{{urlstudent}} ({{rama}})</div>
+              {% endif %}
+             
+              <div class="row">
+                  <div class="col-lg-12 text-center">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-bar-chart fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">ERRORS' GRAPH</h4>        
+                  </div>
+              </div>
+              <div id="legend" class="text-center hidden-xs">
+                  <ul>
+                      <li style="color: blue">JSLint</li>
+                      <li style="color: red">JSHint</li>
+                  </ul>
+              </div>
+              <div id="graferror"></div>
+              <!-- grafica de diferencia de errores si la quiero cambiar  
+              <br>
+              <div id="diferror" class="text-left">{{errorescomparar}}</div>
+              <div id="infoerrorGlobalname">{{userlogin}}</div>-->
+              <div class="row">
+                  <div class="col-lg-12 text-center">
+                      <span class="fa-stack fa-4x">
+                          <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                          <i class="fa fa-list-ol fa-stack-1x fa-inverse"></i>
+                      </span>
+                      {% if is_teacher == True %}
+                          <h4 class="service-heading">BEST STUDENTS RANKING</h4>    
+                      {% else %}
+                          <h4 class="service-heading">STUDENT RANKING</h4>    
+                      {% endif %}                        
+                  </div>
+              </div>
+              <div class="row text-center">
+                  
+                  <div class="tab">
+                      <ul class="text2">
+                          {% if is_teacher == True %}
+                              <li><a href="#errorranking">Error Ranking</a></li>
+                              <li><a href="#fichranking">Fich Ranking</a></li>
+                              <li><a href="#rankingerror">Common Errors</a></li>
+                              <li class="hidden-xs"><a href="#diferror">Errors Difference</a></li>   
+                          {% else %}
+                              <li><a href="#rankingerror">Common Errors</a></li>
+                              <li class="hidden-xs"><a href="#diferror">Errors Difference</a></li>   
+                          {% endif %}                       
+                      </ul>
+                      {% if is_teacher == True %}
+                          <div id="errorranking" class="text-left">
+                              <pre class="text2" style="background-color: white">{{ranktotal|safe}}</pre>
+                          </div>
+                          
+                          <div id="fichranking" class="text-left">
+                              <pre class="text2" style="background-color: white">{{rankfich|safe}}</pre>
+                          </div>
+
+                          <div id="rankingerror" class="text-left">
+                              <pre class="text2" style="background-color: white">{{rankerrors|safe}}</pre>
+                          </div>
+                          <div id="diferror" class="text-left hidden-xs">{{errorescomparar}}</div>
+                          <div id="infoerrorGlobalname">{{userlogin}}</div>
+                      {% else %}
+                          <div id="rankingerror" class="text-left">
+                              <pre class="text2" style="background-color: white">{{rankerrors|safe}}</pre>
+                          </div>
+                          <div id="diferror" class="text-left hidden-xs">{{errorescomparar}}</div> 
+                          <div id="infoerrorGlobalname">{{userlogin}}</div>
+                      {% endif %}       
+                  </div>
+              </div>
+          </div>
+        {% else %}
+          <div id="showbotonocult3">{{nomostrar}}</div>
+          <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Sumary</h2>
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-info fa-stack-1x fa-inverse"></i>
+                    </span>
+                     <h4 class="service-heading">NO FILES FOUND</h4>                        
+                </div>
+            </div>
+          </div>
+        {% endif %}
+      </section>
+    {% endif %}
+    
+    <!-- Portfolio Grid Section -->
+    {% if repos %}
+     {% if nomostrar == False %}
+        <section id="portfolio" class="bg-light-gray">
+            {% if is_teacher == True %}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <h2 class="section-heading">REPOSITORIES</h2>
+                            <h3 class="section-subheading text-muted">STUDENTS' REPOSITORIES OF EXERCISE<br>{{urlteach}} ({{rama}})</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% for repo in repos %}
+                        <div class="col-md-2 col-sm-2 portfolio-item" style="position:static;z-index:0">
+                            <a href="#portfolioModal{{repo.numportfolio}}" class="portfolio-link" data-toggle="modal" style="z-index:0">
+                                {% if repo.hayfirstfich %}
+                                    {%for fich in fichs %}
+                                        {% if fich.urlstudent == repo.urlStudentEx %}
+                                            {% if fich.name == repo.firstfich %}
+                                            <div class="portfolio-hover" onclick='createGraphic("{{fich.data}}","{{repo.nameStudent}}{{fich.name}}graphic","false")'>
+                                                <div class="portfolio-hover-content">
+                                                    <i class="fa fa-plus fa-3x"></i>
+                                                </div>
+                                            </div>
+                                            {% load static from staticfiles %}
+                                            <img src="{{repo.urlAvatar}}" class="img-responsive" alt="" width="400">
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="portfolio-hover">
+                                        <div class="portfolio-hover-content">
+                                            <i class="fa fa-plus fa-3x"></i>
+                                        </div>
+                                    </div>
+                                    {% load static from staticfiles %}
+                                    <img src="{{repo.urlAvatar}}" class="img-responsive" alt="" width="400">
+                                {% endif %}
+                                <!--<div class="portfolio-hover">
+                                    <div class="portfolio-hover-content">
+                                        <i class="fa fa-plus fa-3x"></i>
+                                    </div>
+                                </div> 
+                                {% load static from staticfiles %}
+                                <img src="{{repo.urlAvatar}}" class="img-responsive" alt="" width="400">-->
+                            </a>
+                            <div class="portfolio-caption">
+                                <h4>{{repo.nameStudent}}</h4>
+                                <!--<p class="text-muted">{{repo.urlStudentEx}}</p> -->
+                                <br>
+                                <ul class="menu hidden-xs">
+                                    <li style="z-index: 0; position: static; background-color: #FFD700">
+                                        SUMMARY ->
+                                        <ul style="position:absolute;z-index:1000;">
+                                            <li><pre>{{repo.sumary|safe}}</pre></li>
+                                        </ul>
+                                    </li>
+                                </ul>                    
+                            </div>                      
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <h2 class="section-heading">REPOSITORY</h2>
+                            <h3 class="section-subheading text-muted">STUDENT'S REPOSITORY OF EXERCISE<br>{{urlstudent}} ({{rama}})</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2">
+                            <div class="modal-body">
+                                <!-- Project Details Go Here -->
+                                <img class="img-responsive img-centered" src="{{repoavatar}}" alt="" style="width: 150px; margin-top: -70px">
+                                 <br>            
+                                {% if repos.nofichfind %}
+                                    <p>NO FILES WERE FOUND FOR THIS REPOSITORY</p>
+                                {% else %}
+                                    {% if fichs %}
+                                    <div id="graficfich1">{{graficfich1}}</div>
+                                    <div id="graficfich1namediv">{{grafdiv}}</div>
+                                    <div id="tabs{{repos.urlStudentEx}}" class="tab">
+                                        <ul class="text2">
+                                        {%for fich in fichs %}
+                                            <li><a href="#{{fich.name}}" onclick='createGraphic("{{fich.data}}","{{fich.name}}graphic","false")'>{{fich.name}}</a></li>
+                                        {% endfor %}
+                                        </ul>
+                                        {%for fich1 in fichs %}
+                                            <div id="{{fich1.name}}" class="text-left">
+                                                <div id="legend{{fich1.name}}" class="hidden-xs">
+                                                    <ul>
+                                                        <li style="color: blue">JSLint</li>
+                                                        <li style="color: red">JSHint</li>
+                                                    </ul>
+                                                </div>
+                                                <div id="{{fich1.name}}graphic"></div>
+                                                <br>
+                                                <div id ="resumen">
+                                                    <pre class="text4">{{fich1.sumary|safe}}</pre>
+                                                </div>
+                                                <pre class="result text4">{{fich1.analisisJSLint}}</pre>
+                                                <pre class="result text4">{{fich1.analisisJSHint}}</pre>                         
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                {% endif %} 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </section>
+      {% endif %}
+    {% endif %}
+    <footer style="background-color: #00BFFF;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <span class="copyright">Copyright &copy; Check Github Repositories 2016</span>
+                </div>
+                <!--<div class="col-md-4">
+                    <ul class="list-inline social-buttons">
+                        <li><a href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div> 
+                <div class="col-md-4">
+                    <ul class="list-inline quicklinks">
+                        <li><a href="#">Privacy Policy</a>
+                        </li>
+                        <li><a href="#">Terms of Use</a>
+                        </li>
+                    </ul>
+                </div>-->
+            </div>
+        </div>
+    </footer>
+
+    <!-- Portfolio Modals -->
+    <!-- Use the modals below to showcase details about your portfolio projects! -->
+
+    <!-- Portfolio Modal 1 -->
+    {% if repos %}
+    {% for repo in repos %}
+    <div class="portfolio-modal modal fade" id="portfolioModal{{repo.numportfolio}}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <img class="img-responsive img-centered" src="{{repo.urlAvatar}}" alt="" style="width: 100px">
+                            <h2>{{repo.nameStudent}}</h2>
+                            {% if rama == "gh-pages" %}
+                                <p class="item-intro text-muted">{{repo.urlStudentEx}}/tree/gh-pages</p>  
+                            {% else %}
+                                <p class="item-intro text-muted">{{repo.urlStudentEx}}</p>    
+                            {% endif %}
+                                         
+                            {% if repo.nofichfind %}
+                                <p>NO FILES WERE FOUND FOR THIS REPOSITORY</p>
+                            {% else %}
+                                {% if fichs %}
+                                <div id="tabs{{repo.urlStudentEx}}" class="tab">
+                                <ul class="text2">
+                                {%for fich in fichs %}
+                                    {% if fich.urlstudent == repo.urlStudentEx %}
+                                    <li><a href="#{{fich.name}}" onclick='createGraphic("{{fich.data}}","{{repo.nameStudent}}{{fich.name}}graphic","false")'>{{fich.name}}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                </ul>
+                                {%for fich1 in fichs %}
+                                    {% if fich1.urlstudent == repo.urlStudentEx %}
+                                    <div id="{{fich1.name}}" class="text-left">
+                                        <div id="legend{{fich1.name}}" class="hidden-xs">
+                                            <ul>
+                                                <li style="color: blue">JSLint</li>
+                                                <li style="color: red">JSHint</li>
+                                            </ul>
+                                        </div>
+                                        <div id="{{repo.nameStudent}}{{fich1.name}}graphic"></div>
+                                        <br>
+                                        <div id ="resumen">
+                                            <pre class="text4">{{fich1.sumary|safe}}</pre>
+                                        </div>
+                                        <pre class="result text4">{{fich1.analisisJSLint}}</pre>
+                                        <pre class="result text4">{{fich1.analisisJSHint}}</pre>                         
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}
+                                </div>
+                                {% endif %}
+                            {% endif %}
+                            
+                            
+                               <!-- <strong>Want these icons in this portfolio item sample?</strong>You can download 60 of them for free, courtesy of <a href="https://getdpd.com/cart/hoplink/18076?referrer=bvbo4kax5k8ogc">RoundIcons.com</a>, or you can purchase the 1500 icon set <a href="https://getdpd.com/cart/hoplink/18076?referrer=bvbo4kax5k8ogc">here</a>.</p>
+                            <ul class="list-inline">
+                                <li>Date: July 2014</li>
+                                <li>Client: Round Icons</li>
+                                <li>Category: Graphic Design</li>
+                            </ul> -->
+                            <br>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Repository</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% load staticfiles %}
+        <script src="{% static 'checkexercises/js/jquery.js' %}"></script>
+        <script src="{% static 'checkexercises/js/bootstrap.min.js' %}"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="{% static 'checkexercises/js/classie.js' %}"></script>
+        <script src="{% static 'checkexercises/js/cbpAnimatedHeader.js' %}"></script>
+        <script src="{% static 'checkexercises/js/jqBootstrapValidation.js' %}"></script>
+        <script src="{% static 'checkexercises/js/contact_me.js' %}"></script>
+        <script src="{% static 'checkexercises/js/agency.js' %}"></script>    
+        <script src="{% static 'checkexercises/js/github.js' %}"></script>      
+        <script src="{% static 'checkexercises/js/proyecto.js' %}"></script>
+</body>
+
+</html>

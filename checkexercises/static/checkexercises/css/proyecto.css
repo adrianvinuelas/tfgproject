@@ -1,0 +1,316 @@
+body{
+	background-color: #FFF8DC;
+	background-size: cover;
+	background-attachment: fixed;
+}
+
+#general{
+	background-color: #FFF8DC;
+	width: auto; 
+	height: auto;
+	margin: 10px 110px 0 100px;
+}
+
+.form1{
+	width: 500px; 
+	margin: 0 0 0 320px; 
+	height: 60px;
+}
+
+#botonlogin{
+	margin: 0 0 0 80px;
+}
+
+#deluserdefinit{
+	margin: 0px 0 0 80px;
+}
+
+#botonnewuser{
+	margin: 0 0 0 30px;
+}
+
+#botondeluser{
+	margin: 10px 0 0 0;
+}
+
+#botonreturn{
+	margin: 0 0 0 30px;
+}
+
+#botonreturn1{
+	margin: 0px 0px 0px 30px;
+}
+
+#loguearerror{
+	margin: 10px 0 0 410px;
+}
+
+#errorlog1{
+	margin: 10px 0 0 410px;
+}
+
+#errorlog2{
+	margin: 10px 0 0 410px;
+}
+
+#errordel1{
+	margin: 10px 0 0 410px;
+}
+
+#errorcreate1{
+	margin: 10px 0 0 410px;
+}
+
+#errordel2{
+	margin: 10px 0 0 410px;
+}
+
+#errorurl1{
+	width: 300px; 
+	margin: 10px 0 0 410px;
+}
+
+#delask{
+	margin: 10px 0 10px 410px;
+}
+
+#botoncreate{
+	margin: 0px 0 0 0px;
+}
+
+#form{
+ 	margin: 0 0 0 0px;
+}
+
+#fichrepo{
+	margin: 10px 150px 0 100px;
+}
+
+#botonatras{
+	margin: -30px 0 10px 730px;
+}
+
+#botonatras1{
+	margin: -45px 0 20px 470px;
+}
+
+#botonanalizar{
+	margin: -55px 0 20px 580px;
+}
+
+#repos{
+	margin: 20px 150px 0 100px;
+}
+
+#menu{
+	width: 560px;
+}
+
+#listrepos{
+	margin: -10px 0px 0px 0px;
+	width: 560px;
+}
+
+#resumen1{
+	margin: 0px 0px 0px 0px;
+}
+
+#panelLibrary{
+	width: 600px;
+	margin: 30px 0 0 270px;
+}
+
+#notAnalizefich{
+	width: 200px;
+	margin: 0 0 0 120px; 
+	height: 30px;
+	background-color: #E8E8E8 ;
+}
+
+#botonfichNot{
+	background-color: red;
+	margin: -50px 0 0 220px;
+}
+
+#botonDelfichNot{
+	background-color: red;
+	margin: -50px 0 0 0;
+}
+
+#panelexer{
+	width: 600px;
+	margin: 30px 0 0 270px
+}
+
+#legend{
+	position: absolute; 
+	z-index: 1000;
+}
+
+.redir:hover{
+	cursor:help;
+	text-decoration: underline;
+}
+
+.result {
+	background-color: #F8F8F8;
+}
+
+.estudiante{
+	color: red;
+	font-size: 200%;
+	margin: 0 0 10px 35px;
+}
+
+.fichero{
+	font-size: 150%;
+}
+
+.progress{
+	width: 40%;
+	margin: 0 0 0 340px;
+}
+
+.list-group-item{
+	width: 40%;
+}
+
+.ui-icon-carat-1-e{
+	visibility: hidden;
+}
+
+.mes1{
+	width: 300px;
+	margin: 0 0 0 120px;
+}
+
+.text3{
+	font-size:small;
+}
+
+.text4{
+		height: 400px;
+	}
+
+@media screen and (max-width: 768px){
+	.form1{
+		width: 200px;
+		margin: 0 0 0 45px;
+		height: 50px;
+	}
+
+	#botonlogin{
+		margin: 0 0 0 0px;
+	}
+
+	#deluserdefinit{
+		margin: 0px 0 0 0px;
+	}
+
+	#botonnewuser{
+		margin: 10px 0 0 0px;
+	}
+
+	#loguearerror{
+		margin: 0px 0 0 0px;
+	}
+
+	#errorlog1{
+		margin: 0px 0 0 65px;
+	}
+
+	#errorlog2{
+		margin: 0px 0 0 65px;
+	}
+
+	#errordel2{
+		margin: 0px 0 0 65px;
+	}
+
+	#errorcreate1{
+		margin: 0px 0 0 65px;
+	}
+
+	#delask{
+		margin: 0px 0 10px 65px;
+	}
+
+	#errordel1{
+		margin: 0px 0 0 65px;
+	}
+
+	#botoncreate{
+		margin: 0px 0 0 0px;
+	}
+
+	#botonreturn{
+		margin: 10px 0 10px 0px;
+	}
+
+	#botonreturn1{
+		margin: 10px 0px 10px 0px;
+	}
+
+	#panelLibrary{
+		width: 200px;
+		margin: 30px 0 0 45px;
+	}
+
+	#notAnalizefich{
+		width: 170px;
+		margin: 0 0 0 0px; 
+		height: 30px;
+		background-color: #E8E8E8 ;
+	}
+
+	#botonfichNot{
+		background-color: red;
+		margin: 10px 0 0 0px;
+	}
+
+	#botonDelfichNot{
+		background-color: red;
+		margin: 10px 0 0 20px;
+	}
+
+	#panelexer{
+		width: 200px;
+		margin: 30px 0 0 45px
+	}
+
+	#errorurl1{
+		width: 200px; 
+		margin: 0px 0 0 45px;
+	}
+
+	.progress{
+		width: 40%;
+		margin: 0 0 0 90px;
+	}
+
+	.text1{
+		font-size: x-small;
+	}
+
+	.text2{
+		font-size: 50%;
+	}
+
+	.text3{
+		font-size: 50%;
+	}
+
+	.text4{
+		height: 200px;
+		font-size:50%;
+	}
+	
+	.text5{
+		font-size: 80%;
+	}
+
+	.mes1{
+		width: 150px;
+		margin: 10px 0 0 10px;
+	}
+}
